@@ -16,7 +16,7 @@ fn main() {
 
     let mut thread_handles_ac: Vec<thread::JoinHandle<()>> = Vec::new();
     for i in 1..10 {
-        thread_handles_ac.push(run_thread(arc.clone(), i, i % 5 == 0));
+        thread_handles_ac.push(run_thread(arc.clone(), i, i % 2 == 0));
     }
 
     thread_handles_ac
@@ -154,7 +154,7 @@ fn run_consumer(q: Arc<ArrayQueue<u32>>, num: u32) -> thread::JoinHandle<()> {
 fn run_thread(val: Arc<AtomicCell<u32>>, num: u32, store: bool) -> thread::JoinHandle<()> {
     thread::spawn(move || {
         if store {
-            val.store(13);
+            val.fetch_add(1);
         }
         println!("Hello from thread {}! value: {}", num, val.load());
     })
