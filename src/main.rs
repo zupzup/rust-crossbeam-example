@@ -55,20 +55,15 @@ fn main() {
     println!("Starting channel example...");
     let (s, r) = unbounded();
 
-    let mut thread_handles_c: Vec<thread::JoinHandle<()>> = Vec::new();
-
     for i in 1..5 {
-        thread_handles_c.push(run_producer_chan(s.clone(), i));
+        run_producer_chan(s.clone(), i);
     }
     drop(s);
 
     for i in 1..5 {
-        thread_handles_c.push(run_consumer_chan(r.clone(), i));
+        run_consumer_chan(r.clone(), i);
     }
 
-    thread_handles_c
-        .into_iter()
-        .for_each(|th| th.join().expect("can't join thread"));
     println!("channel example finished!");
     thread::sleep(std::time::Duration::from_millis(500));
 
