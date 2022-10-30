@@ -89,8 +89,6 @@ fn main() {
     wg.wait();
     println!("all threads finished!");
     println!("WaitGroup example finished!");
-
-    println!("Hello, world!");
 }
 
 fn do_work(thread_num: i32) {
